@@ -1,12 +1,21 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
+import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from './res/common/guards/jwt-auth.guard';
 
-@Controller()
+@ApiTags("Main")
+@Controller('main')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('unauth')
+  async getDefaultMainPage() {
+    return this.appService.getDefaultMainPage();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('authed')
+  async getUserMainPage(@Req() req) {
+    return this.appService.getUserMainPage(req.id);
   }
 }
