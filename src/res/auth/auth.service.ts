@@ -10,24 +10,24 @@ import { UpdateAssociationDto } from './dto/updateAssociation.dto';
 import { UpdateNicknameDto } from './dto/updateNickname.dto';
 import { UpdateDescriptionDto } from './dto/updateDesc.dto';
 import { LoginDto } from './dto/Login.dto';
+import { bcrypt } from 'bcrypt';
+
+const env = process.env;
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) { }
 
   async validateUser(id: string, password: string): Promise<any> {
-    console.log('a')
     const user = await userSchema.findOne({ nxpid: id });
-    console.log(user);
-    if (user && user.nxppw == password) {
-      console.log('h')
+    const isPwMatch = await bcrypt.compare(password, user.nxppw);
+    if (user && isPwMatch) {
       const { nxppw, ...result } = user;
       return result;
     } else {
-      console.log('b')
       return null;
     }
   }
@@ -49,6 +49,7 @@ export class AuthService {
   }
 
   async register(userData: CreateAuthDto) {
+    userData.pw = await bcrypt.hash(userData.pw, env.SALT_ROUND)
     const newUser = await new userSchema({
       nxpid: userData.id,
       nxppw: userData.pw,
