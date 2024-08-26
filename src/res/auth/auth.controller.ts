@@ -1,7 +1,6 @@
 // src/auth/auth.controller.ts
-import { Request, Controller, Post, UseGuards, Res, Body, UploadedFile, Req, Param, UnauthorizedException, UseInterceptors } from '@nestjs/common';
+import { Request, Controller, Post, UseGuards, Res, Body, UploadedFile, Param, UnauthorizedException, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from '../common/guards/local-auth.guard';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { Response } from 'express';
 import { CreateAuthDto } from './dto/createUser.dto';

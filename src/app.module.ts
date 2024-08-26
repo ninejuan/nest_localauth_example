@@ -14,8 +14,4 @@ const env = process.env;
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-    // configure(consumer: MiddlewareConsumer) {
-    //   consumer.apply(LoggerMiddleware).forRoutes('*');
-    // }
-}
+export class AppModule { }

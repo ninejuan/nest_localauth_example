@@ -16,14 +16,15 @@ async function bootstrap() {
   // app.useLogger(winstonLogger);
   app.setGlobalPrefix(env.GLOBAL_PREFIX);
   app.enableCors({
-    origin: ['http://localhost:5174', 'https://nxp-judger.octive.net', "https://nxp.devfiro.com"],
+    origin: ['http://localhost:5173'],
     credentials: true,
-    exposedHeaders: ['pggtkn', "Authorization"]
+    exposedHeaders: ["Authorization"]
   });
+
   app.use(helmet({
     contentSecurityPolicy: false
   }));
-  // setDailyQuest();
+  
   await linkToDatabase();
   if (env.MODE == "DEV") {
     try {
@@ -39,4 +40,5 @@ async function bootstrap() {
     console.error(e)
   });
 }
+
 bootstrap();
