@@ -9,11 +9,10 @@ config();
 
 
 const env = process.env;
-const logger = new Logger('NXP-backend');
+const logger = new Logger('Service-backend');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.useLogger(winstonLogger);
   app.setGlobalPrefix(env.GLOBAL_PREFIX);
   app.enableCors({
     origin: ['http://localhost:5173'],
