@@ -10,7 +10,7 @@ import { UpdateAssociationDto } from './dto/updateAssociation.dto';
 import { UpdateNicknameDto } from './dto/updateNickname.dto';
 import { UpdateDescriptionDto } from './dto/updateDesc.dto';
 import { LoginDto } from './dto/Login.dto';
-import { bcrypt } from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 const env = process.env;
 
@@ -49,7 +49,8 @@ export class AuthService {
   }
 
   async register(userData: CreateAuthDto) {
-    userData.pw = await bcrypt.hash(userData.pw, env.SALT_ROUND)
+    console.log(typeof env.SALT_ROUND)
+    userData.pw = await bcrypt.hash(userData.pw, Number(env.SALT_ROUND))
     const newUser = await new userSchema({
       nxpid: userData.id,
       nxppw: userData.pw,
